@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market Data</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Stock Market Data</h1>
+        <form action="/stock" method="POST" class="form-inline justify-content-center">
+            <input type="text" name="symbol" class="form-control mb-2 mr-sm-2" placeholder="Enter Stock Symbols (comma-separated)" required>
+            <label for="start_date" class="sr-only">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" class="form-control mb-2 mr-sm-2">
+            <label for="end_date" class="sr-only">End Date:</label>
+            <input type="date" id="end_date" name="end_date" class="form-control mb-2 mr-sm-2">
+            <button type="submit" class="btn btn-primary mb-2">Get Data</button>
+        </form>
+
+        <div id="loading" style="display: none;">
+            <p>Loading data...</p>
+        </div>
+
+        {% if error %}
+            <p style="color:red;">Error: {{ error }}</p>
+        {% endif %}
+
+        {% if stock_data %}
+        <h2 class="text-center my-4">Stock Data</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Symbol</th>
+                        <th>Open</th>
+                        <th>High</th>
+                        <th>Low</th>
+                        <th>Close</th>
+                        <th>Volume</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for day in stock_data %}
+                    <tr>
+                        <td>{{ day['date'] }}</td>
+                        <td>{{ day['symbol'] }}</td>
+                        <td>{{ day['open'] }}</td>
+                        <td>{{ day['high'] }}</td>
+                        <td>{{ day['low'] }}</td>
+                        <td>{{ day['close'] }}</td>
+                        <td>{{ day['volume'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('loading').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
