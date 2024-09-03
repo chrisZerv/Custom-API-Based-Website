@@ -12,7 +12,7 @@ This project is a simple web application built with Flask that retrieves and dis
 
 ## Demo
 
-![screenshot]()
+![screenshot](stock_market_app.png)
 
 ## Technologies Used
 
